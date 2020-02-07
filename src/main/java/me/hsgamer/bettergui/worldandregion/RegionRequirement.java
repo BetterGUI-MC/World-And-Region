@@ -1,10 +1,8 @@
 package me.hsgamer.bettergui.worldandregion;
 
 import java.util.List;
-import me.hsgamer.bettergui.BetterGUI;
 import me.hsgamer.bettergui.object.Icon;
 import me.hsgamer.bettergui.object.IconRequirement;
-import me.hsgamer.bettergui.util.CommonUtils;
 import org.bukkit.entity.Player;
 import org.codemc.worldguardwrapper.WorldGuardWrapper;
 import org.codemc.worldguardwrapper.region.IWrappedRegion;
@@ -30,17 +28,7 @@ public class RegionRequirement extends IconRequirement<List<String>, List<String
         return true;
       }
     }
-    if (failMessage != null) {
-      if (!failMessage.isEmpty()) {
-        player.sendMessage(CommonUtils.colorize(failMessage));
-      }
-    } else {
-      String message = BetterGUI.getInstance().getMessageConfig()
-          .get(String.class, "not-in-region", "&cYou need to be in a region to do this");
-      if (!message.isEmpty()) {
-        CommonUtils.sendMessage(player, message);
-      }
-    }
+    sendFailCommand(player);
     return false;
   }
 
