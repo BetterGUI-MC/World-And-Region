@@ -28,7 +28,6 @@ public class FlagRequirement extends IconRequirement<ConfigurationSection, Map<S
         return true;
       }
     }
-    sendFailCommand(player);
     return false;
   }
 

@@ -28,7 +28,6 @@ public class RegionRequirement extends IconRequirement<List<String>, List<String
         return true;
       }
     }
-    sendFailCommand(player);
     return false;
   }
 

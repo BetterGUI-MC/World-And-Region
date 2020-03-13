@@ -20,11 +20,7 @@ public class WorldRequirement extends IconRequirement<List<String>, List<String>
 
   @Override
   public boolean check(Player player) {
-    if (getParsedValue(player).contains(player.getWorld().getName())) {
-      sendFailCommand(player);
-      return false;
-    }
-    return true;
+    return getParsedValue(player).contains(player.getWorld().getName());
   }
 
   @Override
