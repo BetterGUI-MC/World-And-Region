@@ -16,6 +16,7 @@ public final class Main extends Addon {
     if (getPlugin().getServer().getPluginManager().isPluginEnabled("WorldGuard")) {
       getPlugin().getLogger().info("Added WorldGuard support");
       RequirementBuilder.register("region", RegionRequirement.class);
+      RequirementBuilder.register("flag", FlagRequirement.class);
     }
   }
 }
