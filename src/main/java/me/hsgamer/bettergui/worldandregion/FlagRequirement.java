@@ -2,17 +2,16 @@ package me.hsgamer.bettergui.worldandregion;
 
 import java.util.HashMap;
 import java.util.Map;
-import me.hsgamer.bettergui.object.Icon;
-import me.hsgamer.bettergui.object.IconRequirement;
+import me.hsgamer.bettergui.object.Requirement;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.codemc.worldguardwrapper.WorldGuardWrapper;
 import org.codemc.worldguardwrapper.region.IWrappedRegion;
 
-public class FlagRequirement extends IconRequirement<ConfigurationSection, Map<String, Object>> {
+public class FlagRequirement extends Requirement<ConfigurationSection, Map<String, Object>> {
 
-  public FlagRequirement(Icon icon) {
-    super(icon, false);
+  public FlagRequirement() {
+    super(false);
   }
 
   @Override

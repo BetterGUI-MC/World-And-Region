@@ -1,20 +1,19 @@
 package me.hsgamer.bettergui.worldandregion;
 
 import java.util.List;
-import me.hsgamer.bettergui.object.Icon;
-import me.hsgamer.bettergui.object.IconRequirement;
+import me.hsgamer.bettergui.object.Requirement;
 import org.bukkit.entity.Player;
 
-public class WorldRequirement extends IconRequirement<List<String>, List<String>> {
+public class WorldRequirement extends Requirement<List<String>, List<String>> {
 
-  public WorldRequirement(Icon icon) {
-    super(icon, false);
+  public WorldRequirement() {
+    super(false);
   }
 
   @Override
   public List<String> getParsedValue(Player player) {
     List<String> value = this.value;
-    value.replaceAll(s -> icon.hasVariables(s) ? icon.setVariables(s, player) : s);
+    value.replaceAll(s -> parseFromString(s, player));
     return value;
   }
 
