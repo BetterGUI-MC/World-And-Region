@@ -1,5 +1,6 @@
 package me.hsgamer.bettergui.worldandregion;
 
+import java.util.Comparator;
 import java.util.Set;
 import me.hsgamer.bettergui.builder.RequirementBuilder;
 import me.hsgamer.bettergui.manager.VariableManager;
@@ -22,9 +23,11 @@ public final class Main extends Addon {
       RequirementBuilder.register("region", RegionRequirement.class);
       RequirementBuilder.register("flag", FlagRequirement.class);
       VariableManager.register("region", ((player, s) -> {
-        Set<IWrappedRegion> regionSet = WorldGuardWrapper.getInstance().getRegions(player.getLocation());
+        Set<IWrappedRegion> regionSet = WorldGuardWrapper.getInstance()
+            .getRegions(player.getLocation());
         if (!regionSet.isEmpty()) {
-          return regionSet.iterator().next().getId();
+          return regionSet.stream().max(Comparator.comparingInt(IWrappedRegion::getPriority)).get()
+              .getId();
         }
         return "";
       }));
