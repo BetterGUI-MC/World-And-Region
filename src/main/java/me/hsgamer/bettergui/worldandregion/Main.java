@@ -22,6 +22,8 @@ public final class Main extends Addon {
       getPlugin().getLogger().info("Added WorldGuard support");
       RequirementBuilder.register("region", RegionRequirement.class);
       RequirementBuilder.register("flag", FlagRequirement.class);
+      RequirementBuilder.register("region-owner", RegionOwnerRequirement.class);
+      RequirementBuilder.register("region-user", RegionUserRequirement.class);
       VariableManager.register("region", ((player, s) -> {
         Set<IWrappedRegion> regionSet = WorldGuardWrapper.getInstance()
             .getRegions(player.getLocation());
