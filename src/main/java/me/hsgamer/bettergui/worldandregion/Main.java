@@ -36,11 +36,11 @@ public final class Main extends Addon {
         return "";
       }));
       VariableManager.register("flag_", ((player, s) -> {
-        Optional<IWrappedFlag<String>> flag = WorldGuardWrapper.getInstance()
-            .getFlag(s, String.class);
-        return flag.map(stringIWrappedFlag -> WorldGuardWrapper.getInstance()
+        Optional<IWrappedFlag<Object>> flag = WorldGuardWrapper.getInstance()
+            .getFlag(s, Object.class);
+        return String.valueOf(flag.map(stringIWrappedFlag -> WorldGuardWrapper.getInstance()
             .queryFlag(player, player.getLocation(), stringIWrappedFlag).orElse("null"))
-            .orElse("null");
+            .orElse("null"));
       }));
     }
   }
