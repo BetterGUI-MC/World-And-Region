@@ -1,13 +1,11 @@
 package me.hsgamer.bettergui.worldandregion;
 
 import java.util.Comparator;
-import java.util.Optional;
 import java.util.Set;
 import me.hsgamer.bettergui.builder.RequirementBuilder;
 import me.hsgamer.bettergui.manager.VariableManager;
 import me.hsgamer.bettergui.object.addon.Addon;
 import org.codemc.worldguardwrapper.WorldGuardWrapper;
-import org.codemc.worldguardwrapper.flag.IWrappedFlag;
 import org.codemc.worldguardwrapper.region.IWrappedRegion;
 
 public final class Main extends Addon {
@@ -34,13 +32,6 @@ public final class Main extends Addon {
               .getId();
         }
         return "";
-      }));
-      VariableManager.register("flag_", ((player, s) -> {
-        Optional<IWrappedFlag<Object>> flag = WorldGuardWrapper.getInstance()
-            .getFlag(s, Object.class);
-        return String.valueOf(flag.map(stringIWrappedFlag -> WorldGuardWrapper.getInstance()
-            .queryFlag(player, player.getLocation(), stringIWrappedFlag).orElse("null"))
-            .orElse("null"));
       }));
     }
   }
