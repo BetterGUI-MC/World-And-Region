@@ -20,7 +20,7 @@ public class FlagRequirement extends
   public Map<IWrappedFlag<?>, String> getParsedValue(Player player) {
     Map<IWrappedFlag<?>, String> map = new HashMap<>();
     value.getValues(false).forEach(
-        (s, o) -> WorldGuardWrapper.getInstance().getFlag(s, String.class)
+        (s, o) -> WorldGuardWrapper.getInstance().getFlag(s, o.getClass())
             .ifPresent(
                 iWrappedFlag -> map.put(iWrappedFlag, parseFromString(String.valueOf(o), player))));
     return map;
