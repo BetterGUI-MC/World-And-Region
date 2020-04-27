@@ -2,11 +2,9 @@ package me.hsgamer.bettergui.worldandregion;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import me.hsgamer.bettergui.object.Requirement;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.codemc.worldguardwrapper.region.IWrappedRegion;
 
 public class FlagRequirement extends
     Requirement<ConfigurationSection, Map<String, String>> {
@@ -25,20 +23,14 @@ public class FlagRequirement extends
 
   @Override
   public boolean check(Player player) {
-    Optional<IWrappedRegion> optional = Utils.getMaxPriorityRegion(player.getLocation());
-    if (optional.isPresent()) {
-      Map<String, String> flags = new HashMap<>();
-      optional.get().getFlags()
-          .forEach((iWrappedFlag, o) -> flags.put(iWrappedFlag.getName(), String.valueOf(o)));
-      for (Map.Entry<String, String> checkEntry : getParsedValue(player).entrySet()) {
-        String checkFlag = checkEntry.getKey();
-        if (!flags.containsKey(checkFlag) || !flags.get(checkFlag).equals(checkEntry.getValue())) {
-          return false;
-        }
+    for (Map.Entry<String, String> entry : getParsedValue(player).entrySet()) {
+      if (!String
+          .valueOf(Main.getImplementation().queryFlag(player, entry.getKey(), player.getLocation()))
+          .equals(entry.getValue())) {
+        return false;
       }
-      return true;
     }
-    return false;
+    return true;
   }
 
   @Override

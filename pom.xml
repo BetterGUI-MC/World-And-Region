@@ -7,15 +7,17 @@
   <groupId>me.hsgamer.bettergui</groupId>
   <artifactId>World-And-Region</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
-
-  <name>World-And-Region</name>
-  <description>World and Region Requirement for BetterGUI</description>
+  <modules>
+    <module>wg-api</module>
+    <module>wg-api-6</module>
+    <module>wg-api-7</module>
+    <module>addon</module>
+  </modules>
+  <packaging>pom</packaging>
 
   <properties>
     <java.version>1.8</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.mainClass>me.hsgamer.bettergui.worldandregion.Main</project.mainClass>
   </properties>
 
   <build>
@@ -30,36 +32,7 @@
           <target>${java.version}</target>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>3.2.3</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-            <configuration>
-              <createDependencyReducedPom>false</createDependencyReducedPom>
-              <minimizeJar>true</minimizeJar>
-              <relocations>
-                <relocation>
-                  <pattern>org.codemc.worldguardwrapper</pattern>
-                  <shadedPattern>me.hsgamer.bettergui.worldandregion.worldguardwrapper</shadedPattern>
-                </relocation>
-              </relocations>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <filtering>true</filtering>
-      </resource>
-    </resources>
   </build>
 
   <repositories>
@@ -67,37 +40,14 @@
       <id>papermc-repo</id>
       <url>https://papermc.io/repo/repository/maven-public/</url>
     </repository>
-    <repository>
-      <id>sonatype</id>
-      <url>https://oss.sonatype.org/content/groups/public/</url>
-    </repository>
-    <repository>
-      <id>codemc-releases</id>
-      <url>https://repo.codemc.io/repository/maven-releases/</url>
-    </repository>
-    <repository>
-      <id>codemc-snapshots</id>
-      <url>https://repo.codemc.io/repository/maven-snapshots/</url>
-    </repository>
   </repositories>
 
   <dependencies>
     <dependency>
       <groupId>com.destroystokyo.paper</groupId>
       <artifactId>paper-api</artifactId>
-      <version>1.12.2-R0.1-SNAPSHOT</version>
+      <version>1.14.4-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>me.HSGamer</groupId>
-      <artifactId>BetterGUI</artifactId>
-      <version>2.1</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.codemc.worldguardwrapper</groupId>
-      <artifactId>worldguardwrapper</artifactId>
-      <version>1.1.6-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>

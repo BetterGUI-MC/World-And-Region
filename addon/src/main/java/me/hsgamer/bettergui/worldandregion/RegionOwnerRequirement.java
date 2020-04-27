@@ -1,16 +1,16 @@
 package me.hsgamer.bettergui.worldandregion;
 
-import java.util.Optional;
+import java.util.Collections;
+import java.util.Set;
+import java.util.UUID;
 import me.hsgamer.bettergui.BetterGUI;
 import me.hsgamer.bettergui.object.Requirement;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.codemc.worldguardwrapper.WorldGuardWrapper;
-import org.codemc.worldguardwrapper.region.IWrappedRegion;
 
-public class RegionOwnerRequirement extends Requirement<Object, Optional<IWrappedRegion>> {
+public class RegionOwnerRequirement extends Requirement<Object, Set<UUID>> {
 
   private boolean isSection = false;
 
@@ -25,7 +25,7 @@ public class RegionOwnerRequirement extends Requirement<Object, Optional<IWrappe
   }
 
   @Override
-  public Optional<IWrappedRegion> getParsedValue(Player player) {
+  public Set<UUID> getParsedValue(Player player) {
     if (isSection) {
       ConfigurationSection section = (ConfigurationSection) value;
       if (section.contains("region")) {
@@ -35,24 +35,22 @@ public class RegionOwnerRequirement extends Requirement<Object, Optional<IWrappe
           world = Bukkit.getWorld(parseFromString(section.getString("world"), player));
         }
         if (world != null) {
-          return WorldGuardWrapper.getInstance().getRegion(world, id);
+          return Main.getImplementation().getOwners(world, id);
         }
       } else {
         BetterGUI.getInstance().getLogger()
             .warning(() -> "Missing 'region' section in 'region-owner' requirement");
       }
     } else {
-      return WorldGuardWrapper.getInstance()
-          .getRegion(player.getWorld(), parseFromString(String.valueOf(value), player));
+      return Main.getImplementation()
+          .getOwners(player.getWorld(), parseFromString(String.valueOf(value), player));
     }
-    return Optional.empty();
+    return Collections.emptySet();
   }
 
   @Override
   public boolean check(Player player) {
-    Optional<IWrappedRegion> optional = getParsedValue(player);
-    return optional.isPresent() && optional.get().getOwners().getPlayers()
-        .contains(player.getUniqueId());
+    return getParsedValue(player).contains(player.getUniqueId());
   }
 
   @Override
