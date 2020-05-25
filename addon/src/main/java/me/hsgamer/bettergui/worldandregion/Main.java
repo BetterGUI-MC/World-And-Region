@@ -37,14 +37,22 @@ public final class Main extends Addon {
       RequirementBuilder.register("region-owner", RegionOwnerRequirement.class);
       RequirementBuilder.register("region-user", RegionUserRequirement.class);
       VariableManager.register("region", (player, s) -> {
-        List<String> list = implementation.getSortedRegions(player.getLocation());
+        if (!player.isOnline()) {
+          return "";
+        }
+        List<String> list = implementation.getSortedRegions(player.getPlayer().getLocation());
         if (!list.isEmpty()) {
           return list.get(0);
         }
         return "";
       });
-      VariableManager.register("flag_", (player, s) -> String.valueOf(
-          implementation.queryFlag(player, s, player.getLocation())));
+      VariableManager.register("flag_", (player, s) -> {
+        if (!player.isOnline()) {
+          return "";
+        }
+        return String.valueOf(
+            implementation.queryFlag(player.getPlayer(), s, player.getPlayer().getLocation()));
+      });
     }
   }
 }
