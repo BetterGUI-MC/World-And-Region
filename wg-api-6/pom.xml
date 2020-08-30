@@ -1,84 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <artifactId>wg-api-6</artifactId>
+  <dependencies>
+    <dependency>
+      <artifactId>wg-api</artifactId>
+      <groupId>me.hsgamer.bettergui</groupId>
+      <scope>provided</scope>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <artifactId>worldguard-legacy</artifactId>
+      <groupId>com.sk89q.worldguard</groupId>
+      <scope>provided</scope>
+      <version>6.2</version>
+    </dependency>
+    <dependency>
+      <artifactId>worldedit-bukkit</artifactId>
+      <groupId>com.sk89q.worldedit</groupId>
+      <scope>provided</scope>
+      <version>6.1.5</version>
+    </dependency>
+    <dependency>
+      <artifactId>worldedit-core</artifactId>
+      <exclusions>
+        <exclusion>
+          <artifactId>truezip</artifactId>
+          <groupId>de.schlichtherle</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>guava</artifactId>
+          <groupId>com.google.guava</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>js</artifactId>
+          <groupId>rhino</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>snakeyaml</artifactId>
+          <groupId>org.yaml</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>paranamer</artifactId>
+          <groupId>com.thoughtworks.paranamer</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>gson</artifactId>
+          <groupId>com.google.code.gson</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>jlibnoise</artifactId>
+          <groupId>com.sk89q.lib</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>jchronic</artifactId>
+          <groupId>com.sk89q</groupId>
+        </exclusion>
+      </exclusions>
+      <groupId>com.sk89q.worldedit</groupId>
+      <scope>provided</scope>
+      <version>6.1.4-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+
+  <modelVersion>4.0.0</modelVersion>
+
   <parent>
     <artifactId>World-And-Region</artifactId>
     <groupId>me.hsgamer.bettergui</groupId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
   </parent>
-  <modelVersion>4.0.0</modelVersion>
-
-  <artifactId>wg-api-6</artifactId>
 
   <repositories>
     <repository>
       <id>sk89q-repo</id>
-      <url>http://maven.sk89q.com/repo/</url>
       <snapshots>
         <updatePolicy>always</updatePolicy>
       </snapshots>
+      <url>http://maven.sk89q.com/repo/</url>
     </repository>
   </repositories>
-
-  <dependencies>
-    <dependency>
-      <groupId>me.hsgamer.bettergui</groupId>
-      <artifactId>wg-api</artifactId>
-      <version>1.0-SNAPSHOT</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.sk89q.worldguard</groupId>
-      <artifactId>worldguard-legacy</artifactId>
-      <version>6.2</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.sk89q.worldedit</groupId>
-      <artifactId>worldedit-bukkit</artifactId>
-      <version>6.1.5</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.sk89q.worldedit</groupId>
-      <artifactId>worldedit-core</artifactId>
-      <version>6.1.4-SNAPSHOT</version>
-      <scope>provided</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>de.schlichtherle</groupId>
-          <artifactId>truezip</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>com.google.guava</groupId>
-          <artifactId>guava</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>rhino</groupId>
-          <artifactId>js</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.yaml</groupId>
-          <artifactId>snakeyaml</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>com.thoughtworks.paranamer</groupId>
-          <artifactId>paranamer</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>com.google.code.gson</groupId>
-          <artifactId>gson</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>com.sk89q.lib</groupId>
-          <artifactId>jlibnoise</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>com.sk89q</groupId>
-          <artifactId>jchronic</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-  </dependencies>
 </project>

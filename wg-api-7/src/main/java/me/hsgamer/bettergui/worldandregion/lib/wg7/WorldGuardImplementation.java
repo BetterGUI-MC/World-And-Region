@@ -22,20 +22,24 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 public class WorldGuardImplementation implements IWorldGuardImplementation {
+
   private final WorldGuard core = WorldGuard.getInstance();
   private final FlagRegistry registry = core.getFlagRegistry();
   private final WorldGuardPlugin plugin = WorldGuardPlugin.inst();
 
   private Optional<RegionManager> getWorldManager(World world) {
-    return Optional.ofNullable(core.getPlatform().getRegionContainer().get(BukkitAdapter.adapt(world)));
+    return Optional
+        .ofNullable(core.getPlatform().getRegionContainer().get(BukkitAdapter.adapt(world)));
   }
 
   private Optional<ApplicableRegionSet> getApplicableRegions(Location location) {
-    return getWorldManager(location.getWorld()).map(manager -> manager.getApplicableRegions(BukkitAdapter.asBlockVector(location)));
+    return getWorldManager(location.getWorld())
+        .map(manager -> manager.getApplicableRegions(BukkitAdapter.asBlockVector(location)));
   }
 
   private <V> Optional<V> queryValue(Player player, Location location, Flag<V> flag) {
-    return getApplicableRegions(location).map(applicableRegions -> applicableRegions.queryValue(plugin.wrapPlayer(player), flag));
+    return getApplicableRegions(location)
+        .map(applicableRegions -> applicableRegions.queryValue(plugin.wrapPlayer(player), flag));
   }
 
   private Optional<ProtectedRegion> getRegion(World world, String id) {
