@@ -1,7 +1,8 @@
 package me.hsgamer.bettergui.worldandregion;
 
 import me.hsgamer.bettergui.BetterGUI;
-import me.hsgamer.bettergui.object.Requirement;
+import me.hsgamer.bettergui.api.requirement.BaseRequirement;
+import me.hsgamer.bettergui.lib.core.variable.VariableManager;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
@@ -11,51 +12,45 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.UUID;
 
-public class RegionOwnerRequirement extends Requirement<Object, Set<UUID>> {
+public class RegionOwnerRequirement extends BaseRequirement<Set<UUID>> {
 
-    private boolean isSection = false;
-
-    public RegionOwnerRequirement() {
-        super(false);
+    public RegionOwnerRequirement(String name) {
+        super(name);
     }
 
     @Override
-    public void setValue(Object value) {
-        super.setValue(value);
-        isSection = value instanceof ConfigurationSection;
-    }
-
-    @Override
-    public Set<UUID> getParsedValue(Player player) {
-        if (isSection) {
+    public Set<UUID> getParsedValue(UUID uuid) {
+        Player player = Bukkit.getPlayer(uuid);
+        if (player == null) {
+            return Collections.emptySet();
+        }
+        if (value instanceof ConfigurationSection) {
             ConfigurationSection section = (ConfigurationSection) value;
             if (section.contains("region")) {
-                String id = parseFromString(section.getString("region"), player);
+                String id = VariableManager.setVariables(section.getString("region"), uuid);
                 World world = player.getWorld();
                 if (section.contains("world")) {
-                    world = Bukkit.getWorld(parseFromString(section.getString("world"), player));
+                    world = Bukkit.getWorld(VariableManager.setVariables(section.getString("world"), uuid));
                 }
                 if (world != null) {
                     return Main.getImplementation().getOwners(world, id);
                 }
             } else {
-                BetterGUI.getInstance().getLogger()
-                        .warning(() -> "Missing 'region' section in 'region-owner' requirement");
+                BetterGUI.getInstance().getLogger().warning(() -> "Missing 'region' section in 'region-owner' requirement");
             }
         } else {
-            return Main.getImplementation()
-                    .getOwners(player.getWorld(), parseFromString(String.valueOf(value), player));
+            return Main.getImplementation().getOwners(player.getWorld(), VariableManager.setVariables(String.valueOf(value), uuid));
         }
         return Collections.emptySet();
     }
 
     @Override
-    public boolean check(Player player) {
-        return getParsedValue(player).contains(player.getUniqueId());
+    public boolean check(UUID uuid) {
+        return getParsedValue(uuid).contains(uuid);
     }
 
     @Override
-    public void take(Player player) {
-        // Ignored
+    public void take(UUID uuid) {
+        // EMPTY
     }
 }

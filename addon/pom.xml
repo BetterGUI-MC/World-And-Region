@@ -38,7 +38,7 @@
             <artifactId>BetterGUI</artifactId>
             <groupId>me.HSGamer</groupId>
             <scope>provided</scope>
-            <version>4.0</version>
+            <version>5.0</version>
         </dependency>
         <dependency>
             <artifactId>wg-api-6</artifactId>
@@ -65,7 +65,7 @@
     <parent>
         <artifactId>World-And-Region</artifactId>
         <groupId>me.hsgamer.bettergui</groupId>
-        <version>1.1</version>
+        <version>1.2</version>
     </parent>
 
     <properties>

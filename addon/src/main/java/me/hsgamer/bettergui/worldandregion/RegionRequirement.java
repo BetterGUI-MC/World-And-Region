@@ -1,26 +1,34 @@
 package me.hsgamer.bettergui.worldandregion;
 
-import me.hsgamer.bettergui.object.Requirement;
+import me.hsgamer.bettergui.api.requirement.BaseRequirement;
+import me.hsgamer.bettergui.lib.core.common.CollectionUtils;
+import me.hsgamer.bettergui.lib.core.variable.VariableManager;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.List;
+import java.util.UUID;
 
-public class RegionRequirement extends Requirement<List<String>, List<String>> {
+public class RegionRequirement extends BaseRequirement<List<String>> {
 
-    public RegionRequirement() {
-        super(false);
+    public RegionRequirement(String name) {
+        super(name);
     }
 
     @Override
-    public List<String> getParsedValue(Player player) {
-        List<String> value = this.value;
-        value.replaceAll(s -> parseFromString(s, player));
-        return value;
+    public List<String> getParsedValue(UUID uuid) {
+        List<String> list = CollectionUtils.createStringListFromObject(value, true);
+        list.replaceAll(s -> VariableManager.setVariables(s, uuid));
+        return list;
     }
 
     @Override
-    public boolean check(Player player) {
-        List<String> values = getParsedValue(player);
+    public boolean check(UUID uuid) {
+        Player player = Bukkit.getPlayer(uuid);
+        if (player == null) {
+            return false;
+        }
+        List<String> values = getParsedValue(uuid);
         for (String region : Main.getImplementation().getSortedRegions(player.getLocation())) {
             if (values.contains(region)) {
                 return true;
@@ -30,7 +38,7 @@ public class RegionRequirement extends Requirement<List<String>, List<String>> {
     }
 
     @Override
-    public void take(Player player) {
-        // Ignored
+    public void take(UUID uuid) {
+        // EMPTY
     }
 }
