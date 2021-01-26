@@ -9,6 +9,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 import java.util.Collections;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -25,21 +26,26 @@ public class RegionUserRequirement extends BaseRequirement<Set<UUID>> {
             return Collections.emptySet();
         }
         if (value instanceof ConfigurationSection) {
-            ConfigurationSection section = (ConfigurationSection) value;
-            if (section.contains("region")) {
-                String id = VariableManager.setVariables(section.getString("region"), uuid);
-                World world = player.getWorld();
-                if (section.contains("world")) {
-                    world = Bukkit.getWorld(VariableManager.setVariables(section.getString("world"), uuid));
-                }
-                if (world != null) {
-                    return Main.getImplementation().getMembers(world, id);
-                }
-            } else {
-                BetterGUI.getInstance().getLogger().warning(() -> "Missing 'region' section in 'region-user' requirement");
-            }
+            return getUUIDSet(player, ((ConfigurationSection) value).getValues(false));
+        } else if (value instanceof Map) {
+            return getUUIDSet(player, (Map<?, ?>) value);
         } else {
             return Main.getImplementation().getMembers(player.getWorld(), VariableManager.setVariables(String.valueOf(value), uuid));
+        }
+    }
+
+    private Set<UUID> getUUIDSet(Player player, Map<?, ?> map) {
+        if (map.containsKey("region")) {
+            String id = VariableManager.setVariables(String.valueOf(map.get("region")), player.getUniqueId());
+            World world = player.getWorld();
+            if (map.containsKey("world")) {
+                world = Bukkit.getWorld(VariableManager.setVariables(String.valueOf(map.get("world")), player.getUniqueId()));
+            }
+            if (world != null) {
+                return Main.getImplementation().getMembers(world, id);
+            }
+        } else {
+            BetterGUI.getInstance().getLogger().warning(() -> "Missing 'region' section in 'region-owner' requirement");
         }
         return Collections.emptySet();
     }
