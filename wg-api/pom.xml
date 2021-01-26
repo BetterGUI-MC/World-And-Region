@@ -8,7 +8,7 @@
     <parent>
         <artifactId>World-And-Region</artifactId>
         <groupId>me.hsgamer.bettergui</groupId>
-        <version>1.2</version>
+        <version>1.3</version>
     </parent>
 
 </project>
