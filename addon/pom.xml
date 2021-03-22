@@ -38,7 +38,7 @@
             <artifactId>BetterGUI</artifactId>
             <groupId>me.HSGamer</groupId>
             <scope>provided</scope>
-            <version>5.0</version>
+            <version>5.10</version>
         </dependency>
         <dependency>
             <artifactId>wg-api-6</artifactId>
