@@ -24,8 +24,7 @@ public class WorldGuardImplementation implements IWorldGuardImplementation {
     }
 
     private Optional<ApplicableRegionSet> getApplicableRegions(Location location) {
-        return getWorldManager(location.getWorld())
-                .map(manager -> manager.getApplicableRegions(location));
+        return getWorldManager(location.getWorld()).map(manager -> manager.getApplicableRegions(location));
     }
 
     private Optional<ProtectedRegion> getRegion(World world, String id) {
@@ -33,8 +32,7 @@ public class WorldGuardImplementation implements IWorldGuardImplementation {
     }
 
     private <V> Optional<V> queryValue(Player player, Location location, Flag<V> flag) {
-        return getApplicableRegions(location)
-                .map(applicableRegions -> applicableRegions.queryValue(plugin.wrapPlayer(player), flag));
+        return getApplicableRegions(location).map(applicableRegions -> applicableRegions.queryValue(plugin.wrapPlayer(player), flag));
     }
 
     @Override

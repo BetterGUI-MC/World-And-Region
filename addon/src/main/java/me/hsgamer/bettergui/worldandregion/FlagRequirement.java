@@ -2,7 +2,6 @@ package me.hsgamer.bettergui.worldandregion;
 
 import me.hsgamer.bettergui.api.requirement.BaseRequirement;
 import me.hsgamer.bettergui.lib.core.variable.VariableManager;
-import me.hsgamer.bettergui.lib.simpleyaml.configuration.ConfigurationSection;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -18,9 +17,7 @@ public class FlagRequirement extends BaseRequirement<Map<String, String>> {
     @Override
     public Map<String, String> getParsedValue(UUID uuid) {
         Map<String, String> map = new HashMap<>();
-        if (value instanceof ConfigurationSection) {
-            ((ConfigurationSection) value).getValues(false).forEach((s, o) -> map.put(s, VariableManager.setVariables(String.valueOf(o), uuid)));
-        } else if (value instanceof Map) {
+        if (value instanceof Map) {
             ((Map<?, ?>) value).forEach((o, o1) -> map.put(String.valueOf(o), VariableManager.setVariables(String.valueOf(o1), uuid)));
         }
         return map;

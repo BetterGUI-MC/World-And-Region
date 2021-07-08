@@ -5,7 +5,6 @@ import me.hsgamer.bettergui.api.requirement.BaseRequirement;
 import me.hsgamer.bettergui.lib.core.variable.VariableManager;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 import java.util.Collections;
@@ -25,9 +24,7 @@ public class RegionOwnerRequirement extends BaseRequirement<Set<UUID>> {
         if (player == null) {
             return Collections.emptySet();
         }
-        if (value instanceof ConfigurationSection) {
-            return getUUIDSet(player, ((ConfigurationSection) value).getValues(false));
-        } else if (value instanceof Map) {
+        if (value instanceof Map) {
             return getUUIDSet(player, (Map<?, ?>) value);
         } else {
             return Main.getImplementation().getOwners(player.getWorld(), VariableManager.setVariables(String.valueOf(value), uuid));
