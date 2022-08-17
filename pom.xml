@@ -2,52 +2,74 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>me.hsgamer.bettergui</groupId>
+        <artifactId>addon-parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
     <artifactId>World-And-Region</artifactId>
+    <version>3.0</version>
+    <packaging>jar</packaging>
+
+    <properties>
+        <project.mainClass>me.hsgamer.bettergui.worldandregion.Main</project.mainClass>
+    </properties>
 
     <build>
-        <defaultGoal>clean package</defaultGoal>
         <plugins>
             <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                </configuration>
                 <groupId>org.apache.maven.plugins</groupId>
-                <version>3.8.1</version>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <relocations>
+                                <!-- HSCore -->
+                                <relocation>
+                                    <pattern>me.hsgamer.hscore</pattern>
+                                    <shadedPattern>me.hsgamer.bettergui.lib.core</shadedPattern>
+                                </relocation>
+
+                                <!-- bStats -->
+                                <relocation>
+                                    <pattern>org.bstats</pattern>
+                                    <shadedPattern>me.hsgamer.bettergui.lib.bstats</shadedPattern>
+                                </relocation>
+
+                                <!-- WorldGuardWrapper -->
+                                <relocation>
+                                    <pattern>org.codemc.worldguardwrapper</pattern>
+                                    <shadedPattern>me.hsgamer.bettergui.worldandregion.lib.worldguardwrapper</shadedPattern>
+                                </relocation>
+                            </relocations>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
-    <dependencies>
-        <dependency>
-            <artifactId>paper-api</artifactId>
-            <groupId>com.destroystokyo.paper</groupId>
-            <scope>provided</scope>
-            <version>1.14.4-R0.1-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
-    <groupId>me.hsgamer.bettergui</groupId>
-    <modelVersion>4.0.0</modelVersion>
-    <modules>
-        <module>wg-api</module>
-        <module>wg-api-6</module>
-        <module>wg-api-7</module>
-        <module>addon</module>
-    </modules>
-
-    <packaging>pom</packaging>
-
-    <properties>
-        <java.version>1.8</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
 
     <repositories>
         <repository>
-            <id>papermc-repo</id>
-            <url>https://papermc.io/repo/repository/maven-public/</url>
+            <id>codemc-repo</id>
+            <url>https://repo.codemc.org/repository/maven-public/</url>
         </repository>
     </repositories>
 
-    <version>2.0</version>
+    <dependencies>
+        <dependency>
+            <groupId>org.codemc.worldguardwrapper</groupId>
+            <artifactId>worldguardwrapper</artifactId>
+            <version>1.2.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>

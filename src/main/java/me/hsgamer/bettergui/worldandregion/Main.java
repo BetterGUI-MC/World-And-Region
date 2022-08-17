@@ -1,34 +1,20 @@
 package me.hsgamer.bettergui.worldandregion;
 
-import me.hsgamer.bettergui.api.addon.BetterGUIAddon;
 import me.hsgamer.bettergui.builder.RequirementBuilder;
-import me.hsgamer.bettergui.lib.core.common.Validate;
-import me.hsgamer.bettergui.lib.core.variable.VariableManager;
-import me.hsgamer.bettergui.worldandregion.lib.IWorldGuardImplementation;
+import me.hsgamer.hscore.bukkit.addon.PluginAddon;
+import me.hsgamer.hscore.variable.VariableManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public final class Main extends BetterGUIAddon {
-
-    private static IWorldGuardImplementation implementation;
-
-    public static IWorldGuardImplementation getImplementation() {
-        return implementation;
-    }
+public final class Main extends PluginAddon {
 
     @Override
     public void onEnable() {
         RequirementBuilder.INSTANCE.register(WorldRequirement::new, "world");
 
-        if (Validate.isClassLoaded("com.sk89q.worldguard.WorldGuard")) {
-            implementation = new me.hsgamer.bettergui.worldandregion.lib.wg7.WorldGuardImplementation();
-        } else if (Validate.isClassLoaded("com.sk89q.worldguard.protection.flags.registry.FlagRegistry")) {
-            implementation = new me.hsgamer.bettergui.worldandregion.lib.wg6.WorldGuardImplementation();
-        }
-
-        if (implementation != null) {
+        if (WorldGuardUtil.isWorldGuardEnabled()) {
             getPlugin().getLogger().info("Added WorldGuard support");
             RequirementBuilder.INSTANCE.register(RegionRequirement::new, "region");
             RequirementBuilder.INSTANCE.register(FlagRequirement::new, "flag");
@@ -39,7 +25,7 @@ public final class Main extends BetterGUIAddon {
                 if (player == null) {
                     return "";
                 }
-                List<String> list = implementation.getSortedRegions(player.getLocation());
+                List<String> list = WorldGuardUtil.getRegions(player.getLocation());
                 if (!list.isEmpty()) {
                     return list.get(0);
                 }
@@ -50,7 +36,7 @@ public final class Main extends BetterGUIAddon {
                 if (player == null) {
                     return "";
                 }
-                return String.valueOf(implementation.queryFlag(player, original, player.getLocation()));
+                return String.valueOf(WorldGuardUtil.queryFlag(player, player.getLocation(), original));
             });
         }
     }
