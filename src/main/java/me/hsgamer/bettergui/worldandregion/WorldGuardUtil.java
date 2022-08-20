@@ -56,12 +56,13 @@ public class WorldGuardUtil {
                 .queryApplicableFlags(player, location)
                 .entrySet()
                 .stream()
-                .collect(Collectors.toMap(entry -> entry.getKey().getName(), Map.Entry::getValue));
+                .collect(Collectors.toMap(entry -> entry.getKey().getName().toLowerCase(), Map.Entry::getValue));
         for (Map.Entry<String, String> entry : flagMap.entrySet()) {
-            if (!map.containsKey(entry.getKey())) {
+            String lowerCaseKey = entry.getKey().toLowerCase();
+            if (!map.containsKey(lowerCaseKey)) {
                 return false;
             }
-            if (!String.valueOf(map.get(entry.getKey())).equalsIgnoreCase(entry.getValue())) {
+            if (!Objects.toString(map.get(lowerCaseKey)).equalsIgnoreCase(entry.getValue())) {
                 return false;
             }
         }
