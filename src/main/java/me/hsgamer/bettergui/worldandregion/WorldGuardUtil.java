@@ -52,20 +52,12 @@ public class WorldGuardUtil {
     }
 
     public static boolean checkFlags(Player player, Location location, Map<String, String> flagMap) {
-        Map<String, Object> map = WorldGuardWrapper.getInstance()
-                .queryApplicableFlags(player, location)
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(entry -> entry.getKey().getName().toLowerCase(), Map.Entry::getValue));
-        for (Map.Entry<String, String> entry : flagMap.entrySet()) {
-            String lowerCaseKey = entry.getKey().toLowerCase();
-            if (!map.containsKey(lowerCaseKey)) {
-                return false;
-            }
-            if (!Objects.toString(map.get(lowerCaseKey)).equalsIgnoreCase(entry.getValue())) {
-                return false;
-            }
-        }
-        return true;
+        return flagMap.entrySet().stream()
+                .map(entry -> WorldGuardWrapper.getInstance().getFlag(entry.getKey(), Object.class)
+                        .flatMap(flag -> WorldGuardWrapper.getInstance().queryFlag(player, location, flag))
+                        .map(Objects::toString)
+                        .orElse("")
+                        .equalsIgnoreCase(entry.getValue()))
+                .reduce(true, Boolean::logicalAnd);
     }
 }
