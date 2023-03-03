@@ -5,7 +5,6 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.codemc.worldguardwrapper.WorldGuardWrapper;
-import org.codemc.worldguardwrapper.flag.IWrappedFlag;
 import org.codemc.worldguardwrapper.region.IWrappedDomain;
 import org.codemc.worldguardwrapper.region.IWrappedRegion;
 
@@ -41,23 +40,16 @@ public class WorldGuardUtil {
                 .orElse(Collections.emptySet());
     }
 
-    public static Object queryFlag(Player player, Location location, String flag) {
-        Map<IWrappedFlag<?>, Object> map = WorldGuardWrapper.getInstance().queryApplicableFlags(player, location);
-        for (Map.Entry<IWrappedFlag<?>, Object> entry : map.entrySet()) {
-            if (entry.getKey().getName().equalsIgnoreCase(flag)) {
-                return entry.getValue();
-            }
-        }
-        return null;
+    public static String queryFlag(Player player, Location location, String flag) {
+        return WorldGuardWrapper.getInstance().getFlag(flag, Object.class)
+                .flatMap(wrappedFlag -> WorldGuardWrapper.getInstance().queryFlag(player, location, wrappedFlag))
+                .map(Objects::toString)
+                .orElse("");
     }
 
     public static boolean checkFlags(Player player, Location location, Map<String, String> flagMap) {
         return flagMap.entrySet().stream()
-                .map(entry -> WorldGuardWrapper.getInstance().getFlag(entry.getKey(), Object.class)
-                        .flatMap(flag -> WorldGuardWrapper.getInstance().queryFlag(player, location, flag))
-                        .map(Objects::toString)
-                        .orElse("")
-                        .equalsIgnoreCase(entry.getValue()))
+                .map(entry -> queryFlag(player, location, entry.getKey()).equalsIgnoreCase(entry.getValue()))
                 .reduce(true, Boolean::logicalAnd);
     }
 }

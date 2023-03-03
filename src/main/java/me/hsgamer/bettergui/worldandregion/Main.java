@@ -7,7 +7,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.List;
-import java.util.Objects;
 
 public final class Main extends PluginAddon {
 
@@ -37,7 +36,7 @@ public final class Main extends PluginAddon {
                 if (player == null) {
                     return "";
                 }
-                return Objects.toString(WorldGuardUtil.queryFlag(player, player.getLocation(), original));
+                return WorldGuardUtil.queryFlag(player, player.getLocation(), original);
             });
         }
     }
