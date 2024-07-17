@@ -7,11 +7,11 @@
     <parent>
         <groupId>me.hsgamer.bettergui</groupId>
         <artifactId>addon-parent</artifactId>
-        <version>3.0</version>
+        <version>4.0</version>
     </parent>
 
     <artifactId>World-And-Region</artifactId>
-    <version>5.0</version>
+    <version>6.0</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -38,6 +38,12 @@
                                 <relocation>
                                     <pattern>me.hsgamer.hscore</pattern>
                                     <shadedPattern>me.hsgamer.bettergui.lib.core</shadedPattern>
+                                </relocation>
+
+                                <!-- MineLib -->
+                                <relocation>
+                                    <pattern>io.github.projectunified.minelib</pattern>
+                                    <shadedPattern>me.hsgamer.bettergui.lib.minelib</shadedPattern>
                                 </relocation>
 
                                 <!-- bStats -->
